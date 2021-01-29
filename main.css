@@ -1,0 +1,66 @@
+body{
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color:rgb(51, 35, 145) ;
+    background-repeat: no-repeat;
+    background-size:cover ;
+}
+
+#eleccion>div{
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+
+.icons{
+    height: 400px;
+}
+.icon{
+    width: 130px;
+    height: 130px;
+    border: 15px solid;
+    padding: 20px;
+    background-color: white
+}
+
+.center {
+    display: block;
+    margin: auto;
+}
+
+[v-cloak] {
+    display: none;
+}
+
+
+
+.hide{
+    display: none;
+}
+
+.attribution {
+    font-size: 15px;
+    text-align: center;
+}
+.attribution a {
+    color: hsl(228, 45%, 44%);
+}
+.fade-enter-active, .fade-leave-active{
+    transition: opacity 2s ease;
+}
+
+.fade-enter-from, .fade-leave.to {
+    opacity:0;
+}
+
+@media (min-width: 600px) {
+.game{
+    margin-left: 4rem;
+    margin-right: 4rem;
+    margin-top:1rem
+}
+.separation{
+    margin-top: 10rem;
+}
+
+}       

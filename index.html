@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  <link rel="stylesheet" href="/main.css">
+  <script src="https://unpkg.com/vue@next" defer></script>
+  <script src="/app2.js" defer></script>
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
+    integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU"
+    crossorigin="anonymosus"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js"
+    integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj"
+    crossorigin="anonymous"></script>
+
+
+  <title>Rock, Paper, Scissors | By Claudia Ballano & Diego Lajusticia</title>
+</head>
+
+<body class="container-fluid d-flex-column py-5">
+  <div id="app">
+    <transition name="fade" appear>
+    <div v-if = "show">
+      <header>
+        <div class="d-flex justify-content-between col-md-6 mx-auto border border-3 rounded p-3 ">
+          <img src="/images/logo.svg" alt="" class="m-2">
+          <div class="border border-3 rounded px-4 pt-2 bg-white text-center">
+            <p class="text-primary fw-bold">SCORE</p>
+            <h1 v-cloak class="fs-1 fw-bold" id="puntos">{{score}}</h1>
+          </div>
+        </div>
+      </header>
+      <main>
+        <!--Player-->
+        
+        <div id="resultado" class="mt-2 mt-md-5">
+          <h3 v-cloak class="text-light text-center" v-show="showResult">{{result}}</h3>
+          <div class="d-flex col-md-6 mx-auto justify-content-between flex-column flex-md-row">
+            
+            <div id="divEleccion" class="col-5 col-md-4 mx-auto text-center">
+              <h3 v-show="showChoices"class="text text-light">Your choice:</h3>
+              <!--paper-->
+              <div v-show="showPaper" class="rounded-circle icon border-primary mt-n1  mx-auto" id="ElePaper">
+                <img src="/images/icon-paper.svg" alt="" class="center">
+              </div>
+              <!--scissors-->
+              <div v-show="showScissors" class="rounded-circle icon border-warning mt-n1  mx-auto" id="EleScissors">
+                <img src="/images/icon-scissors.svg" alt="" class="center">
+              </div>
+              <!--rock-->
+              <div class="d-flex justify-content-center">
+                <div v-show="showRock" class="rounded-circle icon border-danger  mx-auto" id="EleRock">
+                  <img src="/images/icon-rock.svg" alt="" class="center">
+                </div>
+              </div>
+              <h3 v-cloak v-show="showChoices" class="text-light">{{userSelects}}</h3>
+            </div>
+            <div v-show="showReadyToPlay"class="text-center text-light">
+              <h2>¿Ready to play?</h2>
+              <p>Choose an option</p>
+            </div>
+            <div v-show="showNumberOfAttempts" class="text-center text-light">
+              <h5 v-cloak >You have {{numberOfGames}} attempts left</h5>
+            </div>
+            <!--Computer-->
+            <div class="d-flex-column m-auto text-center text-light my-4 mx-4" id="show">
+              <h2></h2>
+              <button :disabled="numberOfGames==0" v-show="showPlayAgain" @click="playAgain" type="button" class="btn btn-primary btn-lg"
+                id="playAgain">Play Again</button>
+            </div>
+  
+            <div id="AIEleccion" class="col-5  col-md-4 mx-auto text-center">
+              <!--paper-->
+              <h3 v-show="showChoices" class="text-light">CPU choice: </h3>
+              <div v-show="showPaperComputer" class="rounded-circle icon border-primary mt-n1  mx-auto" id="AIPaper">
+                <img src="/images/icon-paper.svg" alt="" class="center">
+              </div>
+              <!--scissors-->
+              <div v-show="showScissorsComputer" class="rounded-circle icon border-warning mt-n1  mx-auto"
+                id="AIScissors">
+                <img src="/images/icon-scissors.svg" alt="" class="center">
+              </div>
+              <!--rock-->
+              <div v-show="showRockComputer" class="rounded-circle icon border-danger  mx-auto" id="AIRock">
+                <img src="/images/icon-rock.svg" alt="" class="center">
+              </div>
+              <h3  v-cloak v-show="showChoices" class="text-light">{{computerSelects}}</h3>
+            </div>
+          </div>
+  
+        </div>
+        <!--Start game-->
+        <div class="d-flex col-6 justify-content-center w-auto text-center">
+          <div v-show="showMainOptions">
+            <button @click="playerSelect" id="paper" class=" game rounded-circle icon border-primary mt-n1" id="paper">
+              <img src="/images/icon-paper.svg" alt="paper" class="center">
+            </button>
+            <button @click="playerSelect" id="rock" class="game rounded-circle icon border-danger col align-self-end"
+              id="piedra">
+              <img src="/images/icon-rock.svg" alt="rock" class="center">
+            </button>
+            <button @click="playerSelect" id="scissors" class="game rounded-circle icon border-warning mt-n1" id="tijera">
+              <img src="/images/icon-scissors.svg" alt="scissors" class="center">
+            </button>
+          </div>
+        </div>
+      </main>
+  
+      <footer class=" d-flex col-6 mx-auto justify-content-end flex-column mt-5">
+        <button type="button" class="btn btn-outline-light w-md-25 mt-4 align-self-center" data-bs-toggle="modal"
+          data-bs-target="#Rules">
+          Rules
+        </button>
+  
+        <div class="modal fade" id="Rules" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header ">
+                <h3 class="modal-title text-center" id="exampleModalLabel">RULES</h3>
+                <button type="button" data-bs-dismiss="modal" aria-label="Close">
+                  <img src="/images/icon-close.svg"
+                    alt=""></button>
+              </div>
+              <div class="modal-body d-flex justify-content-center">
+                <img src="/images/image-rules.svg" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="attribution mt-5 text-light m-6">
+          Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank" class="text-warning">Frontend
+            Mentor</a>.<br>
+          Coded by <a class="text-warning">Claudia Ballano & Diego Lajusticia</a>.
+        </div>
+      </footer>
+    </div>
+  </transition>
+  </div>
+</body>
+
+</html>
